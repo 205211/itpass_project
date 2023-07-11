@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Tabke(name="itpass_quiz")
+@Table(name="itpass_quiz")
 public class Quiz {
 	// 問題ID 
 	@Id
