@@ -1,6 +1,7 @@
 package com.itpass.quiz.entity;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Tabke(name="itpass_quiz")
 public class Quiz {
 	// 問題ID 
 	@Id
