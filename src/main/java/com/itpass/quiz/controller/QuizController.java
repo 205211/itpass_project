@@ -169,4 +169,33 @@ public class QuizController {
 		redirectAttributes.addFlashAttribute("delcomplete", "削除が完了しました");
 		return "redirect:/quiz";
 	}
+
+	// ---------- 【以下はクイズで遊ぶ機能】 ----------
+	// ランダムで1件取得し、画面に表示
+	@GetMapping("/play")
+	public String showQuiz(QuizForm quizForm, Model model) {
+		//Quizを取得(Optionalでラップ)
+		Optional<Quiz> quizOpt = service.selectOneRandomQuiz();
+		// 値が入っているか判定する
+		if(quizOpt.isPresent()) {// QuizFormへの詰め直し
+			Optional<QuizForm> quizFormOpt = quizOpt.map(t -> makeQuizForm(t));
+			quizForm = quizFormOpt.get();
+		} else {
+			model.addAttribute("msg", "問題がありません・・・");
+			return "play";
+		}
+		// 表示用「Model」への格納
+		model.addAttribute("quizForm", quizForm);
+		return "play";
+	}
+	// クイズの正解/不正解を判定
+	@PostMapping("/check")
+	public String checkQuiz(QuizForm quizForm, @RequestParam Integer answer, Model model){
+		if (service.checkQuiz(quizForm.getId(), answer)) {
+			model.addAttribute("msg","正解です");
+		} else {
+			model.addAttribute("msg","不正解です");
+		}
+		return "answer";
+	}
 }

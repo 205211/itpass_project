@@ -27,6 +27,18 @@ public class QuizServiceImpl implements QuizService {
 	}
 
 	@Override
+	public Optional<Quiz> selectOneRandomQuiz() {
+		// ランダムでidの値を取得する
+		Integer randId = repository.getRandomId();
+		// 問題がない場合
+		if (randId == null) {
+			// 空のOptionalインスタンスを返します。
+			return Optional.empty();
+		}
+		return repository.findById(randId);
+	}
+
+	@Override
 	public Boolean checkQuiz(Integer id, Integer myAnswer) {
 		// 正解/不正解を判定用変数
 		Boolean check = false;

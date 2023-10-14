@@ -10,6 +10,8 @@ public interface QuizService {
 	Iterable<Quiz> selectAll();
 	// idをキーに1件取得
 	Optional<Quiz> selectOneById(Integer id);
+	// クイズをランダムで1件取得
+	Optional<Quiz> selectOneRandomQuiz();
 	// 正解/不正解を判定
 	Boolean checkQuiz(Integer id, Integer myAnswer);
 	// 登録

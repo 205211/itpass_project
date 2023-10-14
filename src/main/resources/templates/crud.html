@@ -65,6 +65,7 @@
 	<!--/* ========== ここから下部エリア ========== */-->
 	<!--/* ▼▼▼ 新規登録時のみ表示 ▼▼▼ */-->
 	<div th:if="${quizForm.newQuiz}" style="margin: 10px">
+		<h3><a th:href="@{/quiz/play}">ランダムに1問解く</a><br></h3>
 		<h3>登録クイズ一覧<br></h3>
 		<!--/* 削除完了コメント */-->
 		<p th:if="${delcomplete}" th:text="${delcomplete}" style="color:blue"></p>
@@ -79,12 +80,6 @@
 				<th>内容の難易度</th>
 				<th>時間的難易度</th>
 				<th>問題文</th>
-				<th>選択肢１</th>
-				<th>選択肢２</th>
-				<th>選択肢３</th>
-				<th>選択肢４</th>
-				<th>正解の番号</th>
-				<th>ヒント</th>
 				<th>編集</th>
 				<th>削除</th>
 			</tr>
@@ -95,12 +90,6 @@
 				<td th:text="${obj.level1}"></td>
 				<td th:text="${obj.level2}"></td>
 				<td th:text="${obj.statement}" align="left"></td>
-				<td th:text="${obj.order1}" align="left"></td>
-				<td th:text="${obj.order2}" align="left"></td>
-				<td th:text="${obj.order3}" align="left"></td>
-				<td th:text="${obj.order4}" align="left"></td>
-				<td th:text="${obj.answer}"></td>
-				<td th:text="${obj.hint}" align="left"></td>
 				<!--/* 編集ボタン */-->
 				<td>
 					<form method="GET" th:action="@{/quiz/{id}(id=${obj.id})}">
