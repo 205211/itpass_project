@@ -3,8 +3,8 @@ package com.itpass.quiz.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.entity.QuizRecord;
-import com.example.demo.repository.RecordRepository;
+import com.itpass.quiz.entity.QuizRecord;
+import com.itpass.quiz.repository.RecordRepository;
 
 @Service
 public class QuizRecordService {
