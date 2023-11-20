@@ -256,7 +256,7 @@ public class QuizController {
 	}
 	
 	@PostMapping("/choosecheck")
-	public String checkPlayQuiz(Quizorm quizForm, @RequestParam Integer answer, Model model){
+	public String checkPlayQuiz(QuizForm quizForm, @RequestParam Integer answer, Model model){
 		QuizRecord q_record = new QuizRecord();
 		if (service.checkQuiz(quizForm.getId(), answer)) {
 			q_record.setUser_name(securitySession.getUsername());
