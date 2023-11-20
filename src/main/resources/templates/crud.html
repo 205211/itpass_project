@@ -7,7 +7,13 @@
 </head>
 
 <body>
-	<h1>「ITパスポート問題作成」</h1>
+	<form th:action="@{/logout}" method="post">
+		<h2>ログイン中:</h2>
+		<h2 th:text="${accountname}">ユーザー名</h2>
+		<h2>さん　</h2>
+		<input type="submit" name="logout" value="ログアウト"/>
+	</form>
+	<h1>「ITパスポート問題作成」:メイン画面</h1>
 	<h3 th:text="${title}">タイトル</h3>
 	<!--/* 登録・更新完了コメント */-->
 	<p th:if="${complete}" th:text="${complete}" style="color:blue"></p>
@@ -66,6 +72,7 @@
 	<!--/* ▼▼▼ 新規登録時のみ表示 ▼▼▼ */-->
 	<div th:if="${quizForm.newQuiz}" style="margin: 10px">
 		<h3><a th:href="@{/quiz/play}">ランダムに1問解く</a><br></h3>
+		<h3><a th:href="@{/quiz/chooseLevel}">好きな問題を解く</a><br></h3>
 		<h3>登録クイズ一覧<br></h3>
 		<!--/* 削除完了コメント */-->
 		<p th:if="${delcomplete}" th:text="${delcomplete}" style="color:blue"></p>

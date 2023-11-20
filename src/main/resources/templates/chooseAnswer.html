@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>「ITパスポート問題作成」:解答</title>
+</head>
+
+<body>
+    <h1>「ITパスポート問題作成」:解答</h1>
+    <h2 th:text="${msg}" style="color:red">メッセージ表示領域</h2>
+	<a th:href="@{/quiz/choosequiz}">次の問題へ</a><br>
+	<a th:href="@{/quiz}">終了する</a>
+</body>
+
+</html>

@@ -46,4 +46,8 @@ public class QuizForm {
 	private String hint;
 	// 「登録」「変更」の判定
 	private Boolean newQuiz;
+
+	private Integer tar;
+	
+	private Integer vide;
 }

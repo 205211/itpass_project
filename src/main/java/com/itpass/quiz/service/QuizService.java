@@ -12,6 +12,8 @@ public interface QuizService {
 	Optional<Quiz> selectOneById(Integer id);
 	// クイズをランダムで1件取得
 	Optional<Quiz> selectOneRandomQuiz();
+	// 任意の問題を取得
+	Optional<Quiz> chooseQuiz(Integer target, Integer divide);
 	// 正解/不正解を判定
 	Boolean checkQuiz(Integer id, Integer myAnswer);
 	// 登録

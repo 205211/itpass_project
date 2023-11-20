@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>「ITパスポート問題作成」:PLAY</title>
+</head>
+
+<body>
+    <h1>「ITパスポート問題作成」:PLAY</h1>
+    <h3>クイズ</h3>
+    <th:block th:if="${msg}">
+        <p th:text="${msg}" style="color:red"></p>
+        <a th:href="@{/quiz}">戻る</a>
+    </th:block>
+    <th:block th:unless="${msg}">
+        <p th:text="${quizForm.statement}">クイズ内容</p>
+        <form th:action="@{/quiz/choosecheck}" th:object="${quizForm}" method="POST">
+            <input type="hidden" th:field="*{id}">
+            <br>
+            <button th:text="${quizForm.order1}" name="answer" value=1>1</button><br>
+            <br>
+            <button th:text="${quizForm.order2}" name="answer" value=2>2</button><br>
+            <br>
+            <button th:text="${quizForm.order3}" name="answer" value=3>3</button><br>
+            <br>
+            <button th:text="${quizForm.order4}" name="answer" value=4>4</button><br>
+        </form>
+    </th:block>
+</body>
+
+</html>

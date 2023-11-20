@@ -39,6 +39,16 @@ public class QuizServiceImpl implements QuizService {
 	}
 
 	@Override
+	public Optional<Quiz> chooseQuiz(Integer target, Integer divide) {
+		// TODO 自動生成されたメソッド・スタブ
+		Integer chooseId = repository.findSelectQuiz(target, divide);
+		if (chooseId == null) {
+			return Optional.empty();
+		}
+		return repository.findById(chooseId);
+	}
+
+	@Override
 	public Boolean checkQuiz(Integer id, Integer myAnswer) {
 		// 正解/不正解を判定用変数
 		Boolean check = false;

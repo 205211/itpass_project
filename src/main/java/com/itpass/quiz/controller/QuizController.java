@@ -1,5 +1,6 @@
 package com.itpass.quiz.controller;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.itpass.quiz.auth.SecuritySession;
 import com.itpass.quiz.entity.Quiz;
+import com.itpass.quiz.entity.QuizRecord;
 import com.itpass.quiz.form.QuizForm;
 import com.itpass.quiz.service.QuizService;
+import com.itpass.quiz.service.QuizRecordService;
 
 @Controller
 @RequestMapping("/quiz")
@@ -25,6 +29,12 @@ public class QuizController {
 
 	@Autowired
 	QuizService service;
+
+	@Autowired
+	QuizRecordService r_service;
+	
+	@Autowired
+	SecuritySession securitySession;
 
 	//「form-backing bean」の初期化
 	@ModelAttribute
@@ -41,6 +51,7 @@ public class QuizController {
 		//掲示板の一覧を取得する
 		Iterable<Quiz> list = service.selectAll();
 		// 表示用「Model」への格納
+		model.addAttribute("accountname", securitySession.getUsername());
 		model.addAttribute("list", list);
 		model.addAttribute("title", "登録用フォーム");
 		return "crud";
@@ -190,12 +201,78 @@ public class QuizController {
 	}
 	// クイズの正解/不正解を判定
 	@PostMapping("/check")
-	public String checkQuiz(QuizForm quizForm, @RequestParam Integer answer, Model model){
+	public String checkQuiz(QuizForm quizForm, @RequestParam Integer answer, Model model) {
+		QuizRecord q_record = new QuizRecord();
 		if (service.checkQuiz(quizForm.getId(), answer)) {
+			q_record.setUser_name(securitySession.getUsername());
+			q_record.setQ_id(quizForm.getId());
+			q_record.setQ_result("○");
+			q_record.setRecord_time(LocalDateTime.now().toString());
+			r_service.addQuizRecord(q_record);
 			model.addAttribute("msg","正解です");
 		} else {
+			q_record.setUser_name(securitySession.getUsername());
+			q_record.setQ_id(quizForm.getId());
+			q_record.setQ_result("×");
+			q_record.setRecord_time(LocalDateTime.now().toString());
+			r_service.addQuizRecord(q_record);
 			model.addAttribute("msg","不正解です");
 		}
 		return "answer";
+	}
+
+	private Integer numa;
+	private Integer numb;
+	
+	@GetMapping("/chooseLevel")
+	public String showChoose(Model model) {
+		model.addAttribute(new QuizForm());
+		return "chooseLevel";
+	}
+	
+	@PostMapping("/choose")
+	public String settingChoose(QuizForm quizForm, Model model, RedirectAttributes redirectAttributes) {
+		numa = quizForm.getTar();
+		numb = quizForm.getVide();
+		redirectAttributes.addFlashAttribute("setting","設定が完了しました。");
+		return "redirect:/quiz/chooseLevel";
+	}
+	
+	@GetMapping("/choosequiz")
+	public String showPlayQuiz(QuizForm quizForm, Model model) {
+		//Quizを取得(Optionalでラップ)
+		Optional<Quiz> quizOpt = service.chooseQuiz(numa, numb);
+		// 値が入っているか判定する
+		if(quizOpt.isPresent()) {// QuizFormへの詰め直し
+			Optional<QuizForm> quizFormOpt = quizOpt.map(t -> makeQuizForm(t));
+			quizForm = quizFormOpt.get();
+		} else {
+			model.addAttribute("msg", "問題がありません・・・");
+			return "choosePlay";
+		}
+		// 表示用「Model」への格納
+		model.addAttribute("quizForm", quizForm);
+		return "choosePlay";
+	}
+	
+	@PostMapping("/choosecheck")
+	public String checkPlayQuiz(Quizorm quizForm, @RequestParam Integer answer, Model model){
+		QuizRecord q_record = new QuizRecord();
+		if (service.checkQuiz(quizForm.getId(), answer)) {
+			q_record.setUser_name(securitySession.getUsername());
+			q_record.setQ_id(quizForm.getId());
+			q_record.setQ_result("〇");
+			q_record.setRecord_time(LocalDateTime.now().toString());
+			r_service.addQuizRecord(q_record);
+			model.addAttribute("msg","正解です");
+		} else {
+			q_record.setUser_name(securitySession.getUsername());
+			q_record.setQ_id(quizForm.getId());
+			q_record.setQ_result("✕");
+			q_record.setRecord_time(LocalDateTime.now().toString());
+			r_service.addQuizRecord(q_record);
+			model.addAttribute("msg","不正解です");
+		}
+		return "chooseAnswer";
 	}
 }
