@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+	<title>ようこそ「itpass-maker」へ！</title>
+	<style>
+		.container-fluid {
+			margin-right: auto;
+			margin-left: auto;
+			max-width: 800px;
+			}
+	</style>
+</head>
+<body>
+	<div class="container-fluid bg-primary-subtle my-5">
+		<h3 class="text-center pt-3">お疲れ様でした、これでテストは終了です。</h3>
+		<h3 class="text-center py-1">今後は、テストの結果を基にしたレベルの問題</h3>
+		<h3 class="text-center py-1">が出題されるようになります(最初はランクCまたはBからです)。</h3>
+		<h3 class="text-center pt-3">ランクC：レベル１問題のみ。直近20問の正答率が60%以上で次のランクへ</h3>
+        <h3 class="text-center py-1">ランクB：レベル２問題のみ。直近15問の正答率が70%以上で次のランクへ</h3>
+        <h3 class="text-center py-1">ランクA：レベル２&３問題。直近10問の正答率が80%以上で次のランクへ</h3>
+        <h3 class="text-center py-1">ランクS：全ての問題が選出される。</h3>
+		<h3 class="text-center pt-3 pb-1">それでは頑張ってください。</h3>
+		<div class="d-flex justify-content-center pb-3">
+			<a class="btn btn-secondary m-1" th:href="@{/quiz}">進む</a>
+		</div>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+		crossorigin="anonymous"></script>
+</body>
+</html>
