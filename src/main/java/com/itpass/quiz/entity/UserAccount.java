@@ -16,4 +16,7 @@ public class UserAccount {
 	private Integer user_id;
 	private String username;
 	private String password;
+	private Integer tec_level;
+	private Integer man_level;
+	private Integer str_level;
 }

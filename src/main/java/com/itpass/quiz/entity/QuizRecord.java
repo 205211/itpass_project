@@ -16,6 +16,12 @@ public class QuizRecord {
 	private Integer record_id;
 	private String user_name;
 	private Integer q_id;
+	private Integer quiz_answer;
+	private Integer user_answer;
+	private String start_time;
+	private String fin_time;
 	private String q_result;
-	private String record_time;
+	private Integer target;
+	private Integer divide;
+	private Integer level;
 }
