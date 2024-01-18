@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+	<title>itpass-maker:カテゴリー系列で選出</title>
+	<style>
+		.container-fluid {
+			margin-right: auto;
+			margin-left: auto;
+			max-width: 800px;
+			}
+	</style>
+</head>
+<body>
+	<div class="container-fluid bg-primary-subtle my-5">
+		<h2 class="text-center pt-3" th:text="${msg}"></h2>
+		<h2 class="text-center pt-3" th:if="${tecLevel}" th:text="${tecLevel}"></h2>
+		<h2 class="text-center pt-3" th:if="${manLevel}" th:text="${manLevel}"></h2>
+		<h2 class="text-center pt-3" th:if="${strLevel}" th:text="${strLevel}"></h2>
+		<div class="d-flex justify-content-center pb-3" th:if="${tecmsg}">
+			<form th:action="@{/quiz/selectTec}" method="GET">
+				<input class="btn btn-info m-1" type="submit" value="テクノロジー系列をもう1問解く">
+			</form>
+		</div>
+		<div class="d-flex justify-content-center pb-3" th:if="${manmsg}">
+			<form th:action="@{/quiz/selectMan}" method="GET">
+				<input class="btn btn-info m-1" type="submit" value="マネジメント系列をもう1問解く">
+			</form>
+		</div>
+		<div class="d-flex justify-content-center pb-3" th:if="${strmsg}">
+			<form th:action="@{/quiz/selectStr}" method="GET">
+				<input class="btn btn-info m-1" type="submit" value="ストラテジー系列をもう1問解く">
+			</form>
+		</div>
+		<div class="d-flex justify-content-center pb-3">
+			<a class="btn btn-info m-1" th:href="@{/quiz}">終了する</a>
+		</div>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+		crossorigin="anonymous"></script>
+</body>
+</html>
