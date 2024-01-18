@@ -146,7 +146,6 @@
 							th:unless="${#lists.isEmpty(list)}">
 							<thead>
 								<tr>
-									<th scope="col">問題番号</th>
 									<th scope="col">資格試験コード</th>
 									<th scope="col">分類コード</th>
 									<th scope="col">内容の難易度</th>
@@ -158,7 +157,6 @@
 							</thead>
 							<tbody>
 								<tr th:each="obj : ${list}" align="center">
-									<th scope="row" class="col-1" th:text="${obj.id}"></th>
 									<td class="col-1" th:text="${obj.target}"></td>
 									<td class="col-1" th:text="${obj.divide}"></td>
 									<td class="col-1" th:text="${obj.level1}"></td>
