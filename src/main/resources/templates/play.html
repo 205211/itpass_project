@@ -2,31 +2,50 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <title>「ITパスポート問題作成」:PLAY</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+	<title>itpass-maker:ランダムセレクト</title>
+	<style>
+		.container-fluid {
+			margin-right: auto;
+			margin-left: auto;
+			max-width: 800px;
+		}
+	</style>
 </head>
 
 <body>
-    <h1>「ITパスポート問題作成」:PLAY</h1>
-    <h3>クイズ</h3>
-    <th:block th:if="${msg}">
-        <p th:text="${msg}" style="color:red"></p>
-        <a th:href="@{/quiz/}">問題作成画面へ</a>
-    </th:block>
-    <th:block th:unless="${msg}">
-        <p th:text="${quizForm.statement}">クイズ内容</p>
-        <form th:action="@{/quiz/check}" th:object="${quizForm}" method="POST">
-            <input type="hidden" th:field="*{id}">
-            <br>
-            <button th:text="${quizForm.order1}" name="answer" value=1>1</button><br>
-            <br>
-            <button th:text="${quizForm.order2}" name="answer" value=2>2</button><br>
-            <br>
-            <button th:text="${quizForm.order3}" name="answer" value=3>3</button><br>
-            <br>
-            <button th:text="${quizForm.order4}" name="answer" value=4>4</button><br>
-        </form>
-    </th:block>
+	<div class="container-fluid bg-primary-subtle my-5">
+		<th:block th:if="${msg}">
+        	<p class="text-center pt-3" th:text="${msg}" style="color:red"></p>
+			<div class="d-flex justify-content-center">
+				<a class="btn btn-primary m-1" th:href="@{/quiz}">メイン画面へ</a>
+			<div>
+    	</th:block>
+    	<th:block th:unless="${msg}">
+			<h3 class="pt-3" th:text="'系列:' + ${targetNum}">系列</h3>
+			<h3 th:text="'分類:' + ${divideNum}">分類</h3>
+			<h3 class="py-2" th:text="${quizForm.statement}"></h3>
+			<form th:action="@{/quiz/check}" th:object="${quizForm}" method="POST">
+				<input type="hidden" th:field="*{id}">
+				<input type="hidden" th:field="*{target}">
+				<input type="hidden" th:field="*{divide}">
+            	<br>
+            	<button th:text="*{order1}" name="answer" value=1>1</button><br>
+            	<br>
+            	<button th:text="*{order2}" name="answer" value=2>2</button><br>
+            	<br>
+            	<button th:text="*{order3}" name="answer" value=3>3</button><br>
+            	<br>
+            	<button class="mb-3" th:text="*{order4}" name="answer" value=4>4</button><br>
+			</form>
+    	</th:block>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+		crossorigin="anonymous"></script>
 </body>
 
 </html>
