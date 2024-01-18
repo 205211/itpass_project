@@ -3,126 +3,313 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>「ITパスポート問題作成」</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+	<title>メイン画面</title>
+	<style>
+		.container-fluid {
+			margin-right: auto;
+			margin-left: auto;
+			max-width: 800px;
+		}
+	</style>
 </head>
 
 <body>
-	<form th:action="@{/logout}" method="post">
-		<h2>ログイン中:</h2>
-		<h2 th:text="${accountname}">ユーザー名</h2>
-		<h2>さん　</h2>
-		<input type="submit" name="logout" value="ログアウト"/>
-	</form>
-	<h1>「ITパスポート問題作成」:メイン画面</h1>
-	<h3 th:text="${title}">タイトル</h3>
-	<!--/* 登録・更新完了コメント */-->
-	<p th:if="${complete}" th:text="${complete}" style="color:blue"></p>
-	<!--/* ▼▼▼ Form ▼▼▼ */-->
-	<form method="POST" th:action="${quizForm.newQuiz}? @{/quiz/insert} : @{/quiz/update}" th:object="${quizForm}">
-		<label>資格試験コード：</label>
-		<input type="number" value=1 th:field="*{target}"><br>
-		<div th:if="${#fields.hasErrors('target')}" th:errors="*{target}" style="color:red"></div>
-		<br>
-		<label>分類コード　　：</label>
-		<input type="number" th:field="*{divide}"><br>
-		<div th:if="${#fields.hasErrors('divide')}" th:errors="*{divide}" style="color:red"></div>
-		<br>
-		<label>内容の難易度　：</label>
-		<input type="number" th:field="*{level1}"><br>
-		<div th:if="${#fields.hasErrors('level1')}" th:errors="*{level1}" style="color:red"></div>
-		<br>
-		<label>時間的難易度　：</label>
-		<input type="number" th:field="*{level2}"><br>
-		<div th:if="${#fields.hasErrors('level2')}" th:errors="*{level2}" style="color:red"></div>
-		<br>
-		<label>問題文</label><br>
-		<textarea rows="5" cols="50" th:field="*{statement}"></textarea><br>
-		<div th:if="${#fields.hasErrors('statement')}" th:errors="*{statement}" style="color:red"></div>
-		<br>
-		<label>選択肢１</label><br>
-		<textarea rows="2" cols="50" th:field="*{order1}"></textarea><br>
-		<div th:if="${#fields.hasErrors('order1')}" th:errors="*{order1}" style="color:red"></div>
-		<br>
-		<label>選択肢２</label><br>
-		<textarea rows="2" cols="50" th:field="*{order2}"></textarea><br>
-		<div th:if="${#fields.hasErrors('order2')}" th:errors="*{order2}" style="color:red"></div>
-		<br>
-		<label>選択肢３</label><br>
-		<textarea rows="2" cols="50" th:field="*{order3}"></textarea><br>
-		<div th:if="${#fields.hasErrors('order3')}" th:errors="*{order3}" style="color:red"></div>
-		<br>
-		<label>選択肢４</label><br>
-		<textarea rows="2" cols="50" th:field="*{order4}"></textarea><br>
-		<div th:if="${#fields.hasErrors('order4')}" th:errors="*{order4}" style="color:red"></div>
-		<br>
-		<label>正解の選択肢の番号：</label>
-		<input type="number" th:field="*{answer}"><br>
-		<div th:if="${#fields.hasErrors('answer')}" th:errors="*{answer}" style="color:red"></div>
-		<br>
-		<label>ヒント</label><br>
-		<textarea rows="5" cols="50" th:field="*{hint}"></textarea><br>
-		<input th:if="${id}" type="hidden" th:field="*{id}">
-		<input type="submit" value="送信">
-	</form>
-	<!--/* △△△ Form △△△ */-->
-	<br>
-	<!--/* ========== ここまで上部エリア ========== */-->
-	<hr>
-	<!--/* ========== ここから下部エリア ========== */-->
-	<!--/* ▼▼▼ 新規登録時のみ表示 ▼▼▼ */-->
-	<div th:if="${quizForm.newQuiz}" style="margin: 10px">
-		<h3><a th:href="@{/quiz/play}">ランダムに1問解く</a><br></h3>
-		<h3><a th:href="@{/quiz/chooseLevel}">好きな問題を解く</a><br></h3>
-		<h3>登録クイズ一覧<br></h3>
-		<!--/* 削除完了コメント */-->
-		<p th:if="${delcomplete}" th:text="${delcomplete}" style="color:blue"></p>
-		<p th:if="${msg}" th:text="${msg}" style="color:red"></p>
-		<!--/* ▼▼▼ 問題が1件でもあれば表示 ▼▼▼ */-->
-		<table border="1" th:unless="${#lists.isEmpty(list)}" style="table-layout: fixed;">
-
-			<tr>
-				<th>問題番号</th>
-				<th>資格試験コード</th>
-				<th>分類コード</th>
-				<th>内容の難易度</th>
-				<th>時間的難易度</th>
-				<th>問題文</th>
-				<th>編集</th>
-				<th>削除</th>
-			</tr>
-			<tr th:each="obj : ${list}" align="center">
-				<td th:text="${obj.id}"></td>
-				<td th:text="${obj.target}"></td>
-				<td th:text="${obj.divide}"></td>
-				<td th:text="${obj.level1}"></td>
-				<td th:text="${obj.level2}"></td>
-				<td th:text="${obj.statement}" align="left"></td>
-				<!--/* 編集ボタン */-->
-				<td>
-					<form method="GET" th:action="@{/quiz/{id}(id=${obj.id})}">
-						<input type="submit" value="編集">
+	<div th:if="${admin}">
+		<div th:if="${firstMsg}">
+			<div class="container-fluid bg-primary-subtle my-5">
+				<h2 class="text-center pt-3" th:text="'初めまして、' + ${userName} + 'さん！'">挨拶</h2>
+				<div class="d-flex justify-content-center pb-3">
+					<form th:action="@{/quiz/firstTest}" method="GET">
+						<input class="btn btn-danger btn-opacity-25 m-1" type="submit" value="次へ">
 					</form>
-				</td>
-				<!--/* 削除ボタン */-->
-				<td>
-					<form method="POST" th:action="@{/quiz/delete}">
-						<input type="hidden" name="id" th:value="${obj.id}">
-						<input type="submit" value="削除">
+				</div>
+			</div>
+		</div>
+		<div th:unless="${firstMsg}">
+			<div class="container-fluid bg-primary-subtle mt-5">
+				<h1 class="pt-3">メイン画面</h1>
+				<h3 class="text-end">ユーザーメニュー</h3>
+				<div class="d-flex justify-content-end pb-3">
+					<a class="btn btn-warning m-1" th:href="@{/quiz/select}">問題を解く</a>
+					<form th:action="@{/quiz/userInfo}" method="GET">
+						<input class="btn btn-info m-1" type="submit" value="ユーザー情報">
 					</form>
-				</td>
-			</tr>
-		</table>
-		<!--/* △△△ 問題が1件でもあれば表示 △△△ */-->
-		<!--/* ▼▼▼ 問題が1件もない場合表示 ▼▼▼ */-->
-		<p th:if="${#lists.isEmpty(list)}">登録されている問題はありません。</p>
-		<!--/* △△△ 問題が1件もない場合表示 △△△ */-->
+					<form th:action="@{/logout}" method="post">
+						<input class="btn btn-secondary m-1" type="submit" name="logout" value="ログアウト">
+					</form>
+				</div>
+			</div>
+			<div class="container-fluid bg-warning bg-opacity-25">
+				<h3 class="py-3" th:text="${title}">タイトル</h3>
+				<!--/* 登録・更新完了コメント */-->
+				<p th:if="${complete}" th:text="${complete}" style="color:blue"></p>
+				<!--/* ▼▼▼ Form ▼▼▼ */-->
+				<form method="POST" th:action="${quizForm.newQuiz}? @{/quiz/insert} : @{/quiz/update}"
+					th:object="${quizForm}">
+					<table class="table table-bordered table-striped table-hover col-6">
+						<tr class="form-group">
+							<th class="text-center align-middle">資格試験コード</th>
+							<td><input type="number" class="col-1" th:field="*{target}">
+								<div th:if="${#fields.hasErrors('target')}" th:errors="*{target}" style="color:red">
+								</div>
+							</td>
+						</tr>
+						<tr class="form-group">
+							<th class="text-center align-middle">分類コード</th>
+							<td><input type="number" class="col-1" th:field="*{divide}">
+								<div th:if="${#fields.hasErrors('divide')}" th:errors="*{divide}" style="color:red">
+								</div>
+							</td>
+						</tr>
+						<tr class="form-group">
+							<th class="text-center align-middle">内容の難易度</th>
+							<td><input type="number" class="col-1" th:field="*{level1}">
+								<div th:if="${#fields.hasErrors('level1')}" th:errors="*{level1}" style="color:red">
+								</div>
+							</td>
+						</tr>
+						<tr class="form-group">
+							<th class="text-center align-middle">時間的難易度</th>
+							<td><input type="number" class="col-1" th:field="*{level2}">
+								<div th:if="${#fields.hasErrors('level2')}" th:errors="*{level2}" style="color:red">
+								</div>
+							</td>
+						</tr>
+						<tr class="form-group">
+							<th class="text-center align-middle">問題文</th>
+							<td><textarea class="form-control" rows="5" cols="50" th:field="*{statement}"></textarea>
+								<div th:if="${#fields.hasErrors('statement')}" th:errors="*{statement}"
+									style="color:red">
+								</div>
+							</td>
+						</tr>
+						<tr class="form-group">
+							<th class="text-center align-middle">選択肢１</th>
+							<td><textarea class="form-control" rows="2" cols="50" th:field="*{order1}"></textarea>
+								<div th:if="${#fields.hasErrors('order1')}" th:errors="*{order1}" style="color:red">
+								</div>
+							</td>
+						</tr>
+						<tr class="form-group">
+							<th class="text-center align-middle">選択肢２</th>
+							<td><textarea class="form-control" rows="2" cols="50" th:field="*{order2}"></textarea>
+								<div th:if="${#fields.hasErrors('order2')}" th:errors="*{order2}" style="color:red">
+								</div>
+							</td>
+						</tr>
+						<tr class="form-group">
+							<th class="text-center align-middle">選択肢３</th>
+							<td><textarea class="form-control" rows="2" cols="50" th:field="*{order3}"></textarea>
+								<div th:if="${#fields.hasErrors('order3')}" th:errors="*{order3}" style="color:red">
+								</div>
+							</td>
+						</tr>
+						<tr class="form-group">
+							<th class="text-center align-middle">選択肢４</th>
+							<td><textarea class="form-control" rows="2" cols="50" th:field="*{order4}"></textarea>
+								<div th:if="${#fields.hasErrors('order4')}" th:errors="*{order4}" style="color:red">
+								</div>
+							</td>
+						</tr>
+						<tr class="form-group">
+							<th class="text-center align-middle">正解の選択肢</th>
+							<td><input type="number" class="col-1" th:field="*{answer}">
+								<div th:if="${#fields.hasErrors('answer')}" th:errors="*{answer}" style="color:red">
+								</div>
+							</td>
+						</tr>
+						<tr class="form-group">
+							<th class="text-center align-middle">禁忌肢(ない場合は0)</th>
+							<td><input type="number" class="col-1" th:field="*{bomb}"></td>
+						</tr>
+						<tr class="form-group">
+							<th class="text-center align-middle">ヒント</th>
+							<td><textarea class="form-control" rows="5" cols="50" th:field="*{hint}"></textarea></td>
+						</tr>
+						<input th:if="${id}" type="hidden" th:field="*{id}">
+					</table>
+					<input type="submit" class="btn btn-primary mb-3" value="送信">
+				</form>
+			</div>
+			<!--/* △△△ Form △△△ */-->
+			<!--/* ========== ここまで上部エリア ========== */-->
+			<!--/* ========== ここから下部エリア ========== */-->
+			<!--/* ▼▼▼ 新規登録時のみ表示 ▼▼▼ */-->
+			<div th:if="${quizForm.newQuiz}">
+				<div class="container-fluid bg-danger bg-opacity-25 mb-3">
+					<h3 class="py-3">登録クイズ一覧</h3>
+					<!--/* 削除完了コメント */-->
+					<p th:if="${delcomplete}" th:text="${delcomplete}" style="color:blue"></p>
+					<p th:if="${msg}" th:text="${msg}" style="color:red"></p>
+					<!--/* ▼▼▼ 問題が1件でもあれば表示 ▼▼▼ */-->
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped text-nowrap"
+							th:unless="${#lists.isEmpty(list)}">
+							<thead>
+								<tr>
+									<th scope="col">問題番号</th>
+									<th scope="col">資格試験コード</th>
+									<th scope="col">分類コード</th>
+									<th scope="col">内容の難易度</th>
+									<th scope="col">時間的難易度</th>
+									<th scope="col">問題文</th>
+									<th scope="col">編集</th>
+									<th scope="col">削除</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="obj : ${list}" align="center">
+									<th scope="row" class="col-1" th:text="${obj.id}"></th>
+									<td class="col-1" th:text="${obj.target}"></td>
+									<td class="col-1" th:text="${obj.divide}"></td>
+									<td class="col-1" th:text="${obj.level1}"></td>
+									<td class="col-1" th:text="${obj.level2}"></td>
+									<td class="col" th:text="${obj.statement}" align="left"></td>
+									<!--/* 編集ボタン */-->
+									<td class="col-1">
+										<form method="GET" th:action="@{/quiz/{id}(id=${obj.id})}">
+											<input type="submit" value="編集">
+										</form>
+									</td>
+									<!--/* 削除ボタン */-->
+									<td class="col-1">
+										<form method="POST" th:action="@{/quiz/delete}">
+											<input type="hidden" name="id" th:value="${obj.id}">
+											<input type="submit" value="削除">
+										</form>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<!--/* △△△ 問題が1件でもあれば表示 △△△ */-->
+					</div>
+					<!--/* ▼▼▼ 問題が1件もない場合表示 ▼▼▼ */-->
+					<p th:if="${#lists.isEmpty(list)}">登録されている問題はありません。</p>
+					<!--/* △△△ 問題が1件もない場合表示 △△△ */-->
+				</div>
+			</div>
+			<!--/* △△△ 新規登録時のみ表示 △△△ */-->
+			<!--/* ▼▼▼ 新規登録時でない時に表示 ▼▼▼ */-->
+			<p class="container-fluid py-3" th:unless="${quizForm.newQuiz}">
+				<a href="#" th:href="@{/quiz}">戻る</a>
+			</p>
+		</div>
 	</div>
-	<!--/* △△△ 新規登録時のみ表示 △△△ */-->
-	<!--/* ▼▼▼ 新規登録時でない時に表示 ▼▼▼ */-->
-	<p th:unless="${quizForm.newQuiz}">
-		<a href="#" th:href="@{/quiz}">戻る</a>
-	</p>
+	<div th:unless="${admin}">
+		<div th:if="${firstMsg}">
+			<div class="container-fluid bg-primary-subtle my-5">
+				<h2 class="text-center pt-3" th:text="'初めまして、' + ${userName} + 'さん！'">挨拶</h2>
+				<div class="d-flex justify-content-center pb-3">
+					<form th:action="@{/quiz/firstTest}" method="GET">
+						<input class="btn btn-danger btn-opacity-25 m-1" type="submit" value="次へ">
+					</form>
+				</div>
+			</div>
+		</div>
+		<div th:unless="${firstMsg}">
+			<div class="container-fluid mt-5">
+				<div class="d-flex justify-content-end pb-3">
+					<form th:action="@{/logout}" method="post">
+						<input class="btn btn-secondary m-1" type="submit" name="logout" value="ログアウト">
+					</form>
+				</div>
+			</div>
+			<div class="container-fluid bg-warning bg-opacity-25">
+				<h2 class="text-center pt-3">「問題セレクト」</h2>
+				<h3 class="text-center pt-3">問題をランダムで選出</h3>
+				<div class="d-flex justify-content-center">
+					<a class="btn btn-warning m-1" th:href="@{/quiz/play}">ランダムセレクト</a>
+				</div>
+				<h3 class="text-center pt-3">カテゴリー系列で選出</h3>
+				<div class="d-flex justify-content-center pb-3">
+					<form method="GET" th:action="@{/quiz/selectTec}">
+						<input class="btn btn-danger btn-opacity-25 m-1" type="submit" value="テクノロジー">
+					</form>
+					<form method="GET" th:action="@{/quiz/selectMan}">
+						<input class="btn btn-danger btn-opacity-25 m-1" type="submit" value="マネジメント">
+					</form>
+					<form method="GET" th:action="@{/quiz/selectStr}">
+						<input class="btn btn-danger btn-opacity-25 m-1" type="submit" value="ストラテジー">
+					</form>
+				</div>
+			</div>
+			<div class="container-fluid bg-primary-subtle">
+				<h2 class="text-center pt-3">「ユーザー情報」</h2>
+				<div class="py-3">
+					<table class="table table-bordered table-hover col-3">
+						<tr>
+							<th scope="col" class="text-center align-middle">ユーザー名</th>
+							<td class="text-center align-middle" th:text="${u_name}"></td>
+						</tr>
+						<tr>
+							<th scope="col" class="text-center align-middle">テクノロジー</th>
+							<td class="text-center align-middle" th:text="'ランク：' + ${tec} + '　正答率：' + ${tecProp}"></td>
+						</tr>
+						<tr>
+							<th scope="col" class="text-center align-middle">マネジメント</th>
+							<td class="text-center align-middle" th:text="'ランク：' + ${man} + '　正答率：' + ${manProp}"></td>
+						</tr>
+						<tr>
+							<th scope="col" class="text-center align-middle">ストラテジー</th>
+							<td class="text-center align-middle" th:text="'ランク：' + ${str} + '　正答率：' + ${strProp}"></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="container-fluid bg-danger bg-opacity-25 mb-5">
+				<h2 class="text-center pt-3">「登録クイズ一覧」</h2>
+				<!--/* ▼▼▼ 問題が1件でもあれば表示 ▼▼▼ */-->
+				<div class="py-3">
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped text-nowrap"
+							th:unless="${#lists.isEmpty(list)}">
+							<thead>
+								<tr>
+									<th scope="col">資格試験コード</th>
+									<th scope="col">分類コード</th>
+									<th scope="col">内容の難易度</th>
+									<th scope="col">時間的難易度</th>
+									<th scope="col">問題文</th>
+									<th scope="col">選択肢１</th>
+									<th scope="col">選択肢２</th>
+									<th scope="col">選択肢３</th>
+									<th scope="col">選択肢４</th>
+									<th scope="col">正解の選択肢</th>
+									<th scope="col">ヒント</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="obj : ${list}" align="center">
+									<th class="col-1" th:text="${obj.target}"></th>
+									<td class="col-1" th:text="${obj.divide}"></td>
+									<td class="col-1" th:text="${obj.level1}"></td>
+									<td class="col-1" th:text="${obj.level2}"></td>
+									<td class="col" th:text="${obj.statement}" align="left"></td>
+									<td class="col" th:text="${obj.order1}" align="left"></td>
+									<td class="col" th:text="${obj.order2}" align="left"></td>
+									<td class="col" th:text="${obj.order3}" align="left"></td>
+									<td class="col" th:text="${obj.order4}" align="left"></td>
+									<td class="col-1" th:text="${obj.answer}"></td>
+									<td class="col" th:text="${obj.hint}" align="left"></td>
+								</tr>
+							</tbody>
+						</table>
+						<!--/* △△△ 問題が1件でもあれば表示 △△△ */-->
+					</div>
+				</div>
+				<!--/* ▼▼▼ 問題が1件もない場合表示 ▼▼▼ */-->
+				<p class="text-center py-3" th:if="${#lists.isEmpty(list)}">登録されている問題はありません。</p>
+				<!--/* △△△ 問題が1件もない場合表示 △△△ */-->
+			</div>
+		</div>
+	</div>
 	<!--/* △△△ 新規登録時でない時に表示 △△△ */-->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+		crossorigin="anonymous"></script>
 </body>
 
 </html>
