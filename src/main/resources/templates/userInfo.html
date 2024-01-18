@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+	<title>itpass-maker:ユーザー情報</title>
+</head>
+
+<body>
+	<div class="container bg-primary-subtle my-5">
+		<h1 class="pt-3">ユーザー情報</h1>
+		<a class="btn btn-secondary m-1" th:href="@{/quiz}">メイン画面へ戻る</a>
+		<div class="py-3">
+			<table class="table table-bordered table-hover col-3">
+				<tr>
+					<th scope="col" class="text-center align-middle">ユーザー名</th>
+					<td th:text="${u_name}"></td>
+				</tr>
+				<tr>
+					<th scope="col" class="text-center align-middle">テクノロジー</th>
+					<td th:text="'ランク:' + ${tec} + ' 正答率：' + ${tecProp}"></td>
+				</tr>
+				<tr>
+					<th scope="col" class="text-center align-middle">マネジメント</th>
+					<td th:text="'ランク:' + ${man} + ' 正答率：' + ${manProp}"></td>
+				</tr>
+				<tr>
+					<th scope="col" class="text-center align-middle">ストラテジー</th>
+					<td th:text="'ランク:' + ${str} + ' 正答率：' + ${strProp}"></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+		crossorigin="anonymous"></script>
+</body>
+
+</html>
